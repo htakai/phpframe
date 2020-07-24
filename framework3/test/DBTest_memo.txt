@@ -1,0 +1,9 @@
+﻿DB::prepare_select($sql, $flg, $params, $dsn)
+get_col_use_prepare(string $sql, array $params=[[]], string $dsn = DSN1)カラムだけを配列として、取得
+--->DB::prepare_select($sql, true, $params, $dsn)
+get_use_prepare(string $sql, array $params=[], string $classname, string $dsn = DSN1)クエリ結果を取得するselect文の処理PDOStatemenntオブジェクトとして取得
+--->DB::prepare_select($sql, false, $params, $dsn);
+
+DB::prepare_not_getdt($sql, $params, $dsn)
+ope_use_prepare($sql, $params=[[]], $dsn = DSN1)データ取得を伴わないselect,insert,delete,updateクエリー実行
+

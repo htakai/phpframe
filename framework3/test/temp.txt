@@ -1,0 +1,314 @@
+    /**
+     * @test
+     */	
+    public function createTag異常Test12()
+    {
+		// case that tag is not defined! 
+		$dts = [
+				["link" =>"http://w-pecker.com/?p=2&id=4",
+				 "h7" => "自然派の宿です。"            
+			    ]
+			   ];
+		$this->expectExceptionCode(DOMAIN);
+		$this->expectExceptionMessage('do not parse tag use!');
+		
+        CreateTagStr::createTag($dts);
+    }	
+	
+--------------------
+
+class ExtErrorFunc extends ErrorFunc
+{
+	public function public_connect_ex_str(\throwable $e)
+	{
+		return parent::connect_ex_str($e);	
+	}
+}
+
+class ErrorFuncTest3 extends TestCase
+{
+	protected $obj;
+	
+	public function setUp() 
+	{	
+		$this->obj = new ExtErrorFunc();
+	}
+	
+	/**
+	 * @test
+     */
+	public function connect_ex_str正常処理()
+	{	
+		$ext_obj = new \RuntimeException('test!', RUNTIME);
+		$msg = $this->obj->public_connect_ex_str($ext_obj);
+		$this->assertSame(
+						'throwable is=>RuntimeException<br/>-->test!<br/>-->C:\xampp\framework3\test\ErrorFuncTest3.php(40)<br/>',
+							$msg);	
+	}	
+	
+	
+--------------------
+
+	/**
+	 * @test
+     */
+	public function createClass成功Test()
+	{
+		$ns_classname = 'news3\\models\\CatDao';
+		$instance = FactoryClass::createClass0($ns_classname);
+		$this->assertTrue($instance instanceof $ns_classname);
+	}
+		
+		
+----------------------
+
+class  ApGlobal2Test extends TestCase
+{
+	/**
+     * @test
+	 * @expectedException PHPUnit\Framework\Error\Error
+     */
+	public function ApGlobal異常()
+	{
+		$GLOBALS['not_defined'] = "someone";
+
+		$this->expectExceptionMessage('check global variable [not_defined]!');
+		ApGlobal::do_init();
+		
+	}
+}
+
+----------------
+
+	/**
+	 * @test
+	 * 
+     */
+	public function 定義されていないpostデータunknownが格納されている()
+	{
+//		$this->expectOutputString('400#unknown: request post key not exist!');
+		$this->expectExceptionCode(BADREQUEST);
+		$this->expectExceptionMessage('unknown: request post key not exist!');
+		$ret = $this->request->getPost('unknown');
+
+	}	
+	
+	/**
+	 * @test
+     * @depends 定義されていないpostデータunknownが格納されている
+     */
+	public function 定義されていないpostデータunknownが返すもの($ret)
+	{
+		$this->assertNull($ret);
+	}
+	
+---------------------
+class ExtCreateHtml extends CreateHtml
+{
+	public function public_cacheFree()
+	{
+		return $this->cacheFree();
+	}
+	
+	public function getIdname()
+	{
+		return $this->id_name;
+	}
+	public function view()
+	{
+		echo 'ExtCreateHtml view!';
+	}
+}
+	
+class CreateHtmlTest2 extends TestCase
+{
+	protected $HtmlDts_obj;
+	protected $CreateHtml_obj;
+	protected $mock_CreateTagStr_obj;
+	
+	public function setUp()
+	{
+		$title = "create html test"; # #title# part insert.
+		$id_name = "mytest"; # #id_name part insert.
+		$dts = [[ #  #c1#　part insert.
+					   [ "plain",
+                         ["link" => "https://siawase.com/",
+                          "str" => "plain textのテスト。" 
+                         ]
+                       ]
+					  ],
+					  [ # #c2# part insert.
+					    [ "tag",
+						 ["link" => "https://iou./mypage.html/",
+                          "h2" => "<>h2です。'"
+                         ]
+                       ]
+					  ]
+					 ];
+		$temp_name = 'template_2notag';			 
+		$this->HtmlDts_obj = new HtmlDts($title, $id_name, $dts);
+		$this->CreateHtml_obj = new ExtCreateHtml($temp_name, $this->HtmlDts_obj);
+		
+		$this->mock_CreateTagStr_obj = Phake::mock(CreateTagStr::class);
+	}
+	
+	/**
+     * @test
+     */	
+    public function getCreatehtmls正常Test()
+	{
+		$mock_dt = [['<h2>mock h2 string.</h2>',
+					 '<p>mock p string.</p>'
+					],
+					['<h3>mock h3 string.</h3>'
+					]
+				   ];
+		
+		Phake::when($this->mock_CreateTagStr_obj)->create_htmlstr()->thenReturn($mock_dt);
+
+//		$this->assertNull($this->mock_CreateTagStr_obj);	
+		$expect = ['<h2>mock h2 string.</h2>'.
+				   '<p>mock p string.</p>',
+				   '<h3>mock h3 string.</h3>'
+				   ];
+		
+		$contents = $this->CreateHtml_obj->getCreatehtmls($this->mock_CreateTagStr_obj);
+var_dump($contents);		
+		$this->assertEquals($expect, $contents);
+	}
+
+}
+	
+------------------
+define('TEST', 1);
+define("NOCACHE", 1);
+
+class ExtCreateHtml extends CreateHtml
+{
+    public function public_cacheFree()
+    {
+        return $this->cacheFree();
+    }
+
+    public function getIdname()
+    {
+        return $this->id_name;
+    }
+    public function view()
+    {
+        echo 'ExtCreateHtml view!';
+    }
+}
+
+
+class CreateHtmlTest2 extends TestCase
+{
+    protected $HtmlDts_obj;
+    protected $CreateHtml_obj;
+    protected $mock_CreateTagStr_obj;
+
+    public function setUp()
+    {
+        $title = "create html test"; # #title# part insert.
+        $id_name = "mytest"; # #id_name part insert.
+        $dts = [[ #  #c1#　part insert.
+                       [ "plain",
+                         ["link" => "https://siawase.com/",
+                          "str" => "plain textのテスト。"
+                         ]
+                       ]
+                      ],
+                      [ # #c2# part insert.
+                        [ "tag",
+                         ["link" => "https://iou./mypage.html/",
+                          "h2" => "<>h2です。'"
+                         ]
+                       ]
+                      ]
+                     ];
+        $temp_name = 'template_2notag';
+        $this->HtmlDts_obj = new HtmlDts($title, $id_name, $dts);
+        $this->CreateHtml_obj = new ExtCreateHtml($temp_name, $this->HtmlDts_obj);
+
+        $this->mock_CreateTagStr_obj = Phake::mock(CreateTagStr::class);
+    }
+
+    /**
+     * @test
+     */
+    public function getCreatehtmls正常Test()
+    {
+        $mock_dt = [['<h2>mock h2 string.</h2>',
+                     '<p>mock p string.</p>'
+                    ],
+                    ['<h3>mock h3 string.</h3>'
+                    ]
+                   ];
+
+        Phake::when($this->mock_CreateTagStr_obj)->create_htmlstr()->thenReturn($mock_dt);
+
+        $expect = ['<h2>mock h2 string.</h2>'.
+                   '<p>mock p string.</p>',
+                   '<h3>mock h3 string.</h3>'
+                   ];
+
+        $contents = $this->CreateHtml_obj->getCreatehtmls($this->mock_CreateTagStr_obj);
+        $this->assertEquals($expect, $contents);
+    }
+
+}
+
+-------------------
+
+// case of defined DBG.
+class ChkGlobalNotInitTest2 extends TestCase
+{
+    /**
+     * @test
+     * @expectedException PHPUnit\Framework\Error\Error
+     */
+    public function fallNotdefinedSet()
+    {
+        $this->expectExceptionMessage('check global variable [not_defined]!');
+        require_once __DIR__ .'/../../framework3/runfirst.php';
+    }
+
+--------------
+    /**
+     * @test
+     */
+    public function get正常Test()
+    {
+		$sql = "select * from cat";
+		$objs = $this->obj->get($sql);
+		$this->assertEquals(2, count($objs));
+		$this->assertInstanceOf(Cat::class, $objs[0]);
+		$this->assertInstanceOf(Cat::class, $objs[1]);
+		
+		$this->assertEquals('news', $objs[0]->getCatName());
+		$this->assertEquals(1, $objs[0]->getCatId());
+		$this->assertEquals('faq', $objs[1]->getCatName());
+		$this->assertEquals(2, $objs[1]->getCatId());
+		
+	}
+	-------------------
+class  ApGlobal2Test extends TestCase
+{
+    /**
+     * @test
+     * @expectedException PHPUnit\Framework\Error\Error
+     */
+    public function ApGlobal異常()
+    {
+        $GLOBALS['not_defined'] = "someone";
+
+        $this->expectExceptionMessage('check global variable [not_defined]!');
+        ApGlobal::do_init();
+
+    }	
+	
+-----------------------
+
+	
+
+		
