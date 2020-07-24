@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+/*サイトきょうつうのタグ設定*/
+html *{
+   box-sizing: border-box;
+	}
+body{	
+	margin: 0;
+	padding: 1%;
+	font-size: 80%; /* 全体の文字サイズ */
+	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;	/*フォント種類*/
+	line-height: 2;		/*行間*/
+	/* background: #fff url(../images/bg.jpg); */ /*背景色と背景画像*/
+	}
+ul{
+	list-style-type:none;
+	}
+img{
+	border:none;
+	width: 100%;
+	max-width:100%;
+	height:auto;	
+	}
+
+table{
+	border-collapse:collapse;
+	border: 1px solid #b7b7b7;
+	margin-top: 0.5em;
+    margin-left: 0.5em
+	}
+td, th {
+	text-align: center;
+	border: 1px solid #b7b7b7;
+}	
+iframe{
+	width:100%;
+	}
+pre{ width: 100%;			/*ブロックの幅を画面の80%にする設定。*/
+	max-width: 1000px;	/*上のwidth指定の追加設定。幅1000pxを最大幅に設定し、それ以上広げない。*/
+	padding: 2%;
+	padding-left: 10px;
+	margin-bottom: 40px;
+	border-width : 1px;
+	border-style : solid;
+	border-color : black;
+	overflow: scroll;
+	}
+h1{
+	background-color: blue;
+	color: white;
+	padding: 1%;
+}	
+dl{
+	margin-left: 5px;
+	}
+p{
+	padding: 2%;
+}
+	
+/*リンク（全般）設定*/
+a {
+	color: #444;	/*リンクテキストの色*/
+	-webkit-transition: 0.5s;	/*マウスオン時の移り変わるまでの時間設定。0.5秒。*/
+	transition: 0.5s;			/*同上*/
+}
+a:hover {
+	color: #3b9dab;			/*マウスオン時の文字色（全体）*/
+	text-decoration: none;	/*マウスオン時に下線を消す設定。残したいならこの１行削除。*/
+}
+/*全体のレイアウト設定*/
+.container {
+	width: 85%;			/*ブロックの幅を画面の80%にする設定。*/
+	max-width: 1000px;	/*上のwidth指定の追加設定。幅1000pxを最大幅に設定し、それ以上広げない。*/
+	margin: 0 auto;		/*HP画面の左右中央に表示させる設定*/
+}
+
+.copyright{
+	text-align: center;
+}
+@media screen and (min-width:600px){
+/*全体のレイアウト設定*/
+body{
+	font-size: 100%;
+}
+.container {
+	width: 95%;	
+}	
