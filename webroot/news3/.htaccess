@@ -1,0 +1,13 @@
+Options +FollowSymLinks
+
+RewriteEngine On
+
+RewriteBase /news3
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+#APPNAMEはconfig.phpで設定したAPPNAMEの値を設定する。
+RewriteRule ^(.*)$ /news3/ [QSA,L]
+
