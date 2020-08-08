@@ -19,17 +19,6 @@ if (!defined('DSN1')) {
     define('DSN1', 'local'); # dbinit.phpのreturn 連想配列のkey名に対応.
 }
 
-// 使用pdoオブジェクト名の登録PDO1,PDO2,......
-if (!defined('PDO1')) {
-    define('PDO1', 'local'); # dbinit.phpにあるdbを動作させるpdoの名称をセットする。
-}
-
-
-if (!defined('PDO2')) {
-    define('PDO2', 'local'); // dbinit.phpにあるdbを動作させるpdoの名称をセットする。
-}
-
-
 // dbはsqliteであるか否か
 if (!defined('LITE')) { # SQLITEを使う場合は1にする。その他は0
     define('LITE', 1);
